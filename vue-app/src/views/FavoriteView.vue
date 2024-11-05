@@ -1,12 +1,17 @@
 <template>
     <div>
-      <p>Testando Favorites View</p>
+      <Favorites />
     </div>
 </template>
   
 <script>
+  import Favorites from '@/components/Favorites.vue';
+
   export default {
-    name: "FavoriteView"
+    name: "FavoriteView",
+    components: {
+      Favorites
+    }
   }
 </script>
 

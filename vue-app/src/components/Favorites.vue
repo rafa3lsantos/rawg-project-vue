@@ -1,72 +1,45 @@
 <template>
     <div class="game-list">
-        <div class="game-card" v-for="game in games" :key="game.id">
+        <div class="game-card" v-for="game in favorites" :key="game.id">
             <img :src="game.background_image" :alt="game.name" class="game-image" />
             <h2 class="game-title">{{ game.name }}</h2>
             <p class="game-info">Classificação: {{ game.rating }}</p>
             <p class="game-info">Lançamento: {{ game.released }}</p>
             <span 
-                class="favorite-icon" 
-                :class="{ favorited: game.isFavorite }" 
-                @click="toggleFavorite(game)"
+                class="favorite-icon favorited" 
+                @click="toggleFavorite(game)" 
             >
-                {{ game.isFavorite ? '★' : '☆' }}
+                ★
             </span>
         </div>
     </div>
 </template>
 
 <script>
-import { getGames } from '../services/HttpService';
-
 export default {
-    name: "Games",
+    name: "Favorites",
     data() {
         return {
-            games: [],
+            favorites: [] 
         };
     },
-    async created() {
-        await this.loadGames();
-        this.loadFavorites();
+    created() {
+        this.loadFavorites(); 
     },
     methods: {
-        async loadGames() {
-            try {
-                const response = await getGames();
-                this.games = response.data.results.map(game => ({
-                    ...game,
-                    isFavorite: false 
-                }));
-                console.log('Jogos carregados:', this.games);
-            } catch (error) {
-                console.error("Erro ao buscar jogos: ", error);
-            }
-        },
         loadFavorites() {
             const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            favorites.forEach(fav => {
-                const game = this.games.find(g => g.id === fav.id);
-                if (game) {
-                    game.isFavorite = true; 
-                }
-            });
-            console.log('Favoritos carregados:', favorites);
+            this.favorites = favorites; // Carrega todos os jogos favoritos
+            console.log('Favoritos carregados:', this.favorites); 
         },
         toggleFavorite(game) {
-            game.isFavorite = !game.isFavorite;
-            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-            if (game.isFavorite) {
-                favorites.push(game); 
-            } else {
-                favorites = favorites.filter(fav => fav.id !== game.id);
-            }
-
-            localStorage.setItem('favorites', JSON.stringify(favorites)); 
-            console.log('Favoritos atuais:', favorites);
+            // Remove o jogo da lista de favoritos
+            this.favorites = this.favorites.filter(fav => fav.id !== game.id);
+            // Atualiza o localStorage
+            localStorage.setItem('favorites', JSON.stringify(this.favorites)); 
+            console.log('Favoritos após desfavoritar:', this.favorites);
         }
-    },
+    }
 }
 </script>
 
@@ -77,6 +50,11 @@ export default {
     gap: 60px;
     justify-content: center;
     padding: 120px 40px 40px;
+}
+.no-favorites {
+    text-align: center;
+    font-size: 1.2em;
+    color: #ccc;
 }
 .game-card {
     background-color: #1a1a1a;
@@ -94,15 +72,12 @@ export default {
 }
 .favorite-icon {
     font-size: 30px;
-    color: #ccc;
+    color: #ffd700; 
     cursor: pointer;
     transition: color 0.3s ease;
     position: absolute;
     bottom: 5px;
     right: 15px;
-}
-.favorite-icon.favorited {
-    color: #ffd700; 
 }
 .game-card:hover {
     transform: scale(1.05);

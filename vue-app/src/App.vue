@@ -4,6 +4,7 @@
       <Navbar />
       <RouterView />
       <Background />
+      <!-- <Footer /> -->
     </div>
   </div>
 </template>
@@ -12,16 +13,26 @@
   import Navbar from './components/Navbar.vue';
   import Background from './components/Background.vue';
   import { RouterView } from 'vue-router';
+  import Footer from './components/Footer.vue';
 
   export default {
     components: {
       Navbar,
       Background,
+      Footer
     }
   }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 /* body {
   margin: 0; 
   height: 100vh; 

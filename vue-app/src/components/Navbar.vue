@@ -2,7 +2,7 @@
     <div id="nav">
         <div class="nav-brand">Game Explorer by Dinao</div>
         <div class="nav-links">
-            <RouterLink to="/" class="nav-link" active-class="active">HOME</RouterLink>
+            <!-- <RouterLink to="/" class="nav-link" active-class="active">HOME</RouterLink> -->
             <RouterLink to="/games" class="nav-link" active-class="active">GAMES</RouterLink>
             <RouterLink to="/favorites" class="nav-link" active-class="active">FAVORITES</RouterLink>
         </div>

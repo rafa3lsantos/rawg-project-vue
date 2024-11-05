@@ -1,7 +1,6 @@
 <template>
   <div>
     <Games />
-    <h1>Testando Game View</h1>
   </div>
 </template>
 
